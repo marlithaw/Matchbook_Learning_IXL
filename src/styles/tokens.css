@@ -1,0 +1,60 @@
+/* ============================================================
+   MATCHBOOK LEARNING — Colors & Type
+   Ported from design/_ds/.../colors_and_type.css (source of truth).
+   Fonts are loaded from Google Fonts here; self-host in production.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Mulish:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&family=Caveat:wght@600;700&display=swap');
+
+:root {
+  /* ---------- BRAND COLORS ---------- */
+  --spark-red: #e21c24;
+  --spark-red-press: #b5151a;
+  --ember: #c8161d;
+  --dream-yellow: #f9dc7c;
+  --gold: #f7b23c;
+
+  /* ---------- INK & NEUTRALS ---------- */
+  --ink: #1a1a1a;
+  --charcoal: #232323;
+  --slate: #4a4a4a;
+  --muted: #8a8a8a;
+  --hairline: #e4e2de;
+  --paper: #f6f6f4;
+  --cloud: #ededeb;
+  --white: #ffffff;
+
+  /* ---------- DESIGN-ONLY ADDITIONS (this build) ---------- */
+  --checked-tint: #fdecec; /* checked task row */
+  --help-body: #ffecec; /* help block body text */
+  --dark-card-body: #e8e6e2; /* welcome card body text */
+  --fluency-label: #b07000; /* darkened gold, small text */
+  --iread-label: #7a5a00; /* darkened gold, small text */
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-cond: 'Oswald', 'Arial Narrow', sans-serif;
+  --font-body: 'Mulish', system-ui, -apple-system, sans-serif;
+  --font-script: 'Caveat', 'Comic Sans MS', cursive;
+
+  /* ---------- RADII ---------- */
+  --radius-none: 0px; /* cards & photos are SHARP-cornered */
+  --radius-pill: 999px; /* buttons are full pills */
+
+  /* ---------- SPACING SCALE (4px base) ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+
+  /* ---------- MOTION ---------- */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 180ms;
+
+  /* ---------- ACCESSIBILITY TEXT SCALE ---------- */
+  --tsc: 1; /* set to 1.16 by the larger-text toggle */
+}
