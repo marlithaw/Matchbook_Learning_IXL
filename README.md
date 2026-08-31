@@ -87,7 +87,34 @@ handoff's `ixl-data.js`). Shape:
 - `fluency` keys are display names (`Kindergarten`, `1st Grade`, … `4th Grade`);
   there is no fluency list for grades 5–8.
 
-To update assignments, edit `public/ixl-data.json` and rebuild.
+### Source of truth: the Google Sheet
+
+`public/ixl-data.json` is **generated from** the school's Google Sheet
+**"IXL Codes for Home"** (owned by the school; each grade has a Math tab and an
+ELA tab, plus IREAD and Math Fluency tabs). The sheet's skill cells are
+hyperlinks to the exact IXL skills — that is where the links come from. Teachers
+edit the sheet; the site is regenerated from it. Do not hand-edit
+`ixl-data.json`; edit the sheet and re-sync.
+
+**To re-sync after the sheet changes:**
+
+```bash
+# 1. In the sheet: File > Download > Microsoft Excel (.xlsx)
+# 2. Regenerate the data from that download:
+npm run sync-data -- path/to/IXL_Codes_for_Home.xlsx
+# 3. Commit the updated public/ixl-data.json and push — the deploy is automatic.
+```
+
+If the sheet is shared "anyone with the link can view", you can pull it directly
+without downloading:
+
+```bash
+npm run sync-data -- --sheet-id 17qR2VLb_9qRrhBUMLbsmLbRgXcfeSqbJYzYhvQyi0JA
+```
+
+The sync script (`scripts/sync_ixl_data.py`, zero dependencies) reads the .xlsx,
+extracts each skill's hyperlink and code, and rewrites `public/ixl-data.json`.
+It normalizes quirks such as IXL codes like `6E9` that Sheets stores as numbers.
 
 ## Project structure
 
@@ -127,8 +154,11 @@ segment to the IXL skill code.
 2. **Welcome video** — the Web Speech read-aloud is a launch stand-in. The
    intended state is the recorded clip in the video slot (set `welcomeVideoUrl`),
    with captions.
-3. **Skill-data updates** — decide whether teachers edit the JSON directly (a
-   commit per revision) or the site fetches it, before check-off keys go live.
+3. **Skill-data updates** — resolved: teachers edit the "IXL Codes for Home"
+   Google Sheet, and `public/ixl-data.json` is regenerated from it with
+   `npm run sync-data` (see "Source of truth: the Google Sheet"). For fully
+   automatic syncing, the sheet would need to be link-viewable (or a Google
+   service-account secret added to CI) so a scheduled GitHub Action can pull it.
 4. **Spanish copy** is translated but not yet reviewed by a native-speaking
    staff member.
 5. **Fonts** — loaded from Google Fonts by `src/styles/tokens.css`. Self-host
