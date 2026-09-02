@@ -222,6 +222,35 @@ button {
   margin: 10px 0 0;
   text-wrap: pretty;
 }
+.signin__steps {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.signin__step {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.signin__n {
+  flex: none;
+  min-width: 24px;
+  font-family: var(--font-display);
+  font-size: calc(28px * var(--tsc));
+  line-height: 1;
+  color: var(--spark-red);
+}
+.signin__steptext {
+  font-size: calc(16.5px * var(--tsc));
+  line-height: 1.5;
+  color: var(--slate);
+}
+.signin__steptext b {
+  color: var(--ink);
+}
 .signin__free {
   font-family: var(--font-cond);
   font-weight: 700;
@@ -229,7 +258,17 @@ button {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--ink);
-  margin: 12px 0 0;
+  margin: 18px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline);
+}
+.signin__note {
+  font-size: calc(14px * var(--tsc));
+  line-height: 1.5;
+  color: var(--muted);
+  font-style: italic;
+  margin: 10px 0 0;
+  text-wrap: pretty;
 }
 .signin--compact {
   margin-top: 20px;
