@@ -189,6 +189,56 @@ button {
   text-wrap: pretty;
 }
 
+/* ---------- Sign-in / activation notice ---------- */
+.signin {
+  border: 2px solid var(--ink);
+  background: var(--white);
+  padding: 20px;
+  margin-top: 26px;
+}
+.signin__tag {
+  display: inline-block;
+  background: var(--spark-red);
+  color: var(--white);
+  font-family: var(--font-cond);
+  font-weight: 600;
+  font-size: calc(12px * var(--tsc));
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 10px;
+}
+.signin__title {
+  font-family: var(--font-display);
+  font-size: calc(clamp(22px, 5vw, 28px) * var(--tsc));
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 12px 0 0;
+}
+.signin__body {
+  font-size: calc(16.5px * var(--tsc));
+  line-height: 1.6;
+  color: var(--slate);
+  margin: 10px 0 0;
+  text-wrap: pretty;
+}
+.signin__free {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(16px * var(--tsc));
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 12px 0 0;
+}
+.signin--compact {
+  margin-top: 20px;
+  padding: 14px 16px;
+}
+.signin--compact .signin__body {
+  margin-top: 8px;
+}
+
 /* ---------- Welcome / avatar card ---------- */
 .welcome {
   background: var(--charcoal);

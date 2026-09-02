@@ -56,6 +56,23 @@ export const T = {
     en: "One math skill and one reading skill on IXL, every school night. Your child's teacher already chose them for this exact week. Tap a grade and the buttons take you straight to tonight's skills.",
     es: 'Una destreza de matemáticas y una de lectura en IXL, cada noche escolar. La maestra de su hijo ya las escogió para esta semana exacta. Toque un grado y los botones lo llevan directo a las destrezas de esta noche.',
   },
+  activateKicker: { en: 'Start here', es: 'Empiece aquí' },
+  activateTitle: {
+    en: "First, get your child's login from the teacher",
+    es: 'Primero, pida a la maestra el acceso de su hijo',
+  },
+  activateBody: {
+    en: 'Your child must sign in to IXL to turn it on. Ask your child’s teacher for the IXL username and password, then sign in one time to activate it. Until your child is signed in, the practice below will open but will not save their work or SmartScore.',
+    es: 'Su hijo debe iniciar sesión en IXL para activarlo. Pida a la maestra de su hijo el usuario y la contraseña de IXL, y luego inicie sesión una vez para activarlo. Hasta que su hijo inicie sesión, la práctica de abajo se abrirá pero no guardará su trabajo ni el SmartScore.',
+  },
+  activateFree: {
+    en: 'It is free. The school has already paid for it.',
+    es: 'Es gratis. La escuela ya lo pagó.',
+  },
+  activateNote: {
+    en: 'Not signed in yet? Your child must sign in to IXL to activate it. Ask your child’s teacher for the username and password. It is free — the school has paid for it.',
+    es: '¿Aún no ha iniciado sesión? Su hijo debe iniciar sesión en IXL para activarlo. Pida a la maestra el usuario y la contraseña. Es gratis — la escuela ya lo pagó.',
+  },
   avatarKicker: { en: 'Welcome, families', es: 'Bienvenidas, familias' },
   avatarTitle: { en: 'How this works', es: 'Cómo funciona' },
   avatarScript: {

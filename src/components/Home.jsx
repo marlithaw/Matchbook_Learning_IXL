@@ -1,5 +1,7 @@
-// Home view: hero, welcome/avatar card, saved grades, grade picker,
-// current-week banner.
+// Home view: hero, sign-in notice, welcome/avatar card, saved grades, grade
+// picker, current-week banner.
+
+import SignInNotice from './SignInNotice.jsx'
 
 export default function Home({
   s,
@@ -22,6 +24,8 @@ export default function Home({
         <h1 className="h1">{s.heroTitle}</h1>
         <p className="lede">{s.heroLede}</p>
       </div>
+
+      <SignInNotice s={s} />
 
       {showAvatar ? (
         <div className="welcome">

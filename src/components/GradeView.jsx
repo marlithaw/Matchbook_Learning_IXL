@@ -2,6 +2,7 @@
 // practice, week picker + print, too-hard callout, plus-reading note.
 
 import TaskRow from './TaskRow.jsx'
+import SignInNotice from './SignInNotice.jsx'
 
 export default function GradeView({
   s,
@@ -41,6 +42,8 @@ export default function GradeView({
         <div className="kicker">{gradeLabel}</div>
         <h1 className="h1 h1--grade">{s.tonightTitle}</h1>
       </div>
+
+      <SignInNotice s={s} compact />
 
       <div className="weekbanner weekbanner--grade">
         <div className="weekbanner__label">{s.weekLabel}</div>
