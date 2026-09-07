@@ -52,6 +52,34 @@ button {
   padding: 0 16px 96px;
 }
 
+/* ---------- Login banner (top of every view) ---------- */
+.loginbanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  background: var(--dream-yellow);
+  border: 2px solid var(--ink);
+  border-left: 8px solid var(--spark-red);
+}
+.loginbanner__icon {
+  flex: none;
+  font-size: calc(22px * var(--tsc));
+  line-height: 1.35;
+}
+.loginbanner__text {
+  margin: 0;
+  font-size: calc(16.5px * var(--tsc));
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.loginbanner__q {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
 /* ---------- Header ---------- */
 .header {
   position: sticky;
@@ -207,19 +235,6 @@ button {
   text-transform: uppercase;
   padding: 5px 10px;
 }
-.signin__lead {
-  margin: 14px 0 0;
-  padding: 14px 16px;
-  background: var(--dream-yellow);
-  border-left: 4px solid var(--spark-red);
-  font-size: calc(16.5px * var(--tsc));
-  line-height: 1.55;
-  color: var(--ink);
-  text-wrap: pretty;
-}
-.signin__lead b {
-  color: var(--ink);
-}
 .signin__title {
   font-family: var(--font-display);
   font-size: calc(clamp(22px, 5vw, 28px) * var(--tsc));
@@ -227,13 +242,6 @@ button {
   text-transform: uppercase;
   color: var(--ink);
   margin: 12px 0 0;
-}
-.signin__body {
-  font-size: calc(16.5px * var(--tsc));
-  line-height: 1.6;
-  color: var(--slate);
-  margin: 10px 0 0;
-  text-wrap: pretty;
 }
 .signin__steps {
   list-style: none;
@@ -282,13 +290,6 @@ button {
   font-style: italic;
   margin: 10px 0 0;
   text-wrap: pretty;
-}
-.signin--compact {
-  margin-top: 20px;
-  padding: 14px 16px;
-}
-.signin--compact .signin__body {
-  margin-top: 8px;
 }
 
 /* ---------- Welcome / avatar card ---------- */
@@ -841,32 +842,100 @@ button {
   margin-top: 10px;
 }
 
-/* ---------- Week picker + print ---------- */
-.weekpicker {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  margin-top: 28px;
-  padding-top: 22px;
-  border-top: 1px solid var(--hairline);
+/* ---------- Week navigator (chips) ---------- */
+.weeknav {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
 }
-.weekpicker__label {
+.weeknav__label {
   font-family: var(--font-cond);
   font-weight: 600;
   font-size: calc(13px * var(--tsc));
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--slate);
 }
-.weekpicker__select {
-  font-family: var(--font-body);
-  font-size: calc(16px * var(--tsc));
-  min-height: 48px;
-  padding: 10px 12px;
-  border: 1px solid var(--hairline);
+.weeknav__row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-top: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.weekchip {
+  flex: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 56px;
+  min-width: 96px;
+  padding: 10px 14px;
+  border: 2px solid var(--ink);
   background: var(--white);
   color: var(--ink);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.weekchip:hover {
+  background: var(--cloud);
+}
+.weekchip:active {
+  transform: scale(0.97);
+}
+.weekchip--on {
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+.weekchip__name {
+  font-family: var(--font-cond);
+  font-weight: 700;
+  font-size: calc(16px * var(--tsc));
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+.weekchip__date {
+  font-size: calc(13px * var(--tsc));
+  color: var(--muted);
+}
+.weekchip--on .weekchip__date {
+  color: var(--dark-card-body);
+}
+.weekchip__done {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: calc(13px * var(--tsc));
+  font-weight: 700;
+  color: var(--spark-red);
+  line-height: 1;
+}
+.weekchip--on .weekchip__done {
+  color: var(--dream-yellow);
+}
+.weeknav__note {
+  margin: 12px 0 0;
+  font-size: calc(14px * var(--tsc));
+  line-height: 1.5;
+  color: var(--slate);
+  text-wrap: pretty;
+}
+
+/* ---------- Print button ---------- */
+.weekpicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
 }
 .weekpicker__print {
   min-height: 48px;
@@ -888,14 +957,6 @@ button {
 }
 .weekpicker__print:active {
   transform: scale(0.97);
-}
-.weekpicker__note {
-  flex-basis: 100%;
-  margin: 4px 0 0;
-  font-size: calc(14px * var(--tsc));
-  line-height: 1.5;
-  color: var(--muted);
-  text-wrap: pretty;
 }
 
 /* ---------- Too-hard callout ---------- */

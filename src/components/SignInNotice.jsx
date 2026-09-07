@@ -1,18 +1,9 @@
 // Sign-in / activation notice for parents. IXL is free (no cost to families)
-// but the child must sign in with credentials from the teacher to activate it.
-// Full three-step version on Home; a compact one-line reminder on the grade
-// view (where a returning parent with one saved grade lands directly).
+// but the child must sign in with credentials from ParentSquare to activate it.
+// Shown on Home as a three-step guide; the headline "how to log in" message
+// lives in the LoginBanner at the top of every view.
 
-export default function SignInNotice({ s, compact = false }) {
-  if (compact) {
-    return (
-      <div className="signin signin--compact">
-        <span className="signin__tag">{s.activateBadge}</span>
-        <p className="signin__body">{s.activateCompact}</p>
-      </div>
-    )
-  }
-
+export default function SignInNotice({ s }) {
   const steps = [
     [s.activateStep1a, s.activateStep1b],
     [s.activateStep2a, s.activateStep2b],
@@ -22,9 +13,6 @@ export default function SignInNotice({ s, compact = false }) {
   return (
     <section className="signin" aria-label={s.activateTitle}>
       <span className="signin__tag">{s.activateBadge}</span>
-      <p className="signin__lead">
-        <b>{s.activateLeadQ}</b> {s.activateLead}
-      </p>
       <h2 className="signin__title">{s.activateTitle}</h2>
       <ol className="signin__steps">
         {steps.map(([lead, rest], i) => (

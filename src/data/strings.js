@@ -77,10 +77,6 @@ export const T = {
     en: 'Until your child signs in, the skills will open but won’t save their work or SmartScore.',
     es: 'Hasta que su hijo inicie sesión, las destrezas se abren pero no guardan su trabajo ni el SmartScore.',
   },
-  activateCompact: {
-    en: 'Check ParentSquare for your child’s IXL username and password — they must sign in to activate it. We send it each week. No cost to families.',
-    es: 'Revise ParentSquare para el usuario y la contraseña de IXL de su hijo — debe iniciar sesión para activarlo. La enviamos cada semana. Sin costo para las familias.',
-  },
   avatarKicker: { en: 'Welcome, families', es: 'Bienvenidas, familias' },
   avatarTitle: { en: 'How this works', es: 'Cómo funciona' },
   avatarScript: {
@@ -118,10 +114,11 @@ export const T = {
   markUndone: { en: 'Undo', es: 'Deshacer' },
   codeWord: { en: 'Skill code', es: 'Código' },
   noWork: { en: 'Nothing assigned for this day.', es: 'Nada asignado para este día.' },
-  otherWeek: { en: 'Previous weeks', es: 'Semanas anteriores' },
+  weekNavLabel: { en: 'Go to a week', es: 'Ir a una semana' },
+  weekDoneBadge: { en: 'All nights done', es: 'Todas las noches hechas' },
   weekArchiveNote: {
-    en: 'Nothing disappears — every past week stays right here. Pick one to review or re-do it.',
-    es: 'Nada desaparece — cada semana anterior se queda aquí. Elija una para repasarla o repetirla.',
+    en: 'Every week stays here — the checkmarks you make are saved for each week on its own. Tap any week to review it.',
+    es: 'Cada semana se queda aquí — las marcas que hace se guardan por separado para cada semana. Toque cualquier semana para repasarla.',
   },
   weekWord: { en: 'Week', es: 'Semana' },
   dayWord: { en: 'Day', es: 'Día' },
