@@ -377,9 +377,10 @@ export default function App() {
           onToggleLang={toggleLang}
         />
         <main className="main">
-          <LoginBanner s={s} />
           {isHome ? (
-            <Home
+            <>
+              <LoginBanner s={s} />
+              <Home
               s={s}
               showAvatar={config.showAvatar !== false}
               hasVideo={!!video}
@@ -391,7 +392,8 @@ export default function App() {
               gradeCards={gradeCards}
               homeWeekLine={homeWeekLine}
               homeDateLine={homeDateLine}
-            />
+              />
+            </>
           ) : gradeVM ? (
             <GradeView
               s={s}

@@ -1,7 +1,13 @@
-// Prominent login banner shown at the very top of every view (Home and each
-// grade page), so returning families — who land straight on their saved grade —
-// still see how to get their IXL login. The single source of the ParentSquare
-// message; the Home page adds the fuller three-step card below.
+// Prominent login banner shown at the top of the Home (landing) page, so
+// families see how to get their IXL login before anything else. Key phrases in
+// the message are bolded (marked with **…** in the copy) so they stand out.
+
+function renderBold(text) {
+  // Split on **…** and bold the odd (marked) segments.
+  return String(text)
+    .split(/\*\*(.+?)\*\*/g)
+    .map((part, i) => (i % 2 === 1 ? <b key={i}>{part}</b> : part))
+}
 
 export default function LoginBanner({ s }) {
   return (
@@ -10,7 +16,7 @@ export default function LoginBanner({ s }) {
         🔑
       </span>
       <p className="loginbanner__text">
-        <b className="loginbanner__q">{s.activateLeadQ}</b> {s.activateLead}
+        <b className="loginbanner__q">{s.activateLeadQ}</b> {renderBold(s.activateLead)}
       </p>
     </aside>
   )

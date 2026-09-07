@@ -59,14 +59,14 @@ export const T = {
   activateBadge: { en: 'Ready to learn', es: 'Listos para aprender' },
   activateLeadQ: { en: 'Need to log in?', es: '¿Necesita iniciar sesión?' },
   activateLead: {
-    en: 'Students will need their IXL username and password to complete their weekly assignments. Check your ParentSquare messages for your student’s IXL login information — we send it each week.',
-    es: 'Los estudiantes necesitarán su usuario y contraseña de IXL para completar las tareas de la semana. Revise sus mensajes de ParentSquare para encontrar la información de acceso de IXL de su estudiante — la enviamos cada semana.',
+    en: 'Students will need their **IXL username and password** to complete their weekly assignments. Check your **ParentSquare** messages for your student’s IXL login information.',
+    es: 'Los estudiantes necesitarán su **usuario y contraseña de IXL** para completar las tareas de la semana. Revise sus mensajes de **ParentSquare** para encontrar la información de acceso de IXL de su estudiante.',
   },
   activateTitle: { en: 'Three steps to get started', es: 'Tres pasos para empezar' },
   activateStep1a: { en: 'Find the login in ParentSquare.', es: 'Encuentre el acceso en ParentSquare.' },
   activateStep1b: {
-    en: 'We send your child’s IXL username and password there each week.',
-    es: 'Enviamos ahí el usuario y la contraseña de IXL de su hijo cada semana.',
+    en: 'Your child’s IXL username and password are posted there.',
+    es: 'Ahí está el usuario y la contraseña de IXL de su hijo.',
   },
   activateStep2a: { en: 'Sign in to IXL.', es: 'Inicie sesión en IXL.' },
   activateStep2b: { en: 'One sign-in activates it.', es: 'Con un inicio de sesión se activa.' },
