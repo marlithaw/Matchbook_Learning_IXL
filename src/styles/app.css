@@ -207,6 +207,19 @@ button {
   text-transform: uppercase;
   padding: 5px 10px;
 }
+.signin__lead {
+  margin: 14px 0 0;
+  padding: 14px 16px;
+  background: var(--dream-yellow);
+  border-left: 4px solid var(--spark-red);
+  font-size: calc(16.5px * var(--tsc));
+  line-height: 1.55;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+.signin__lead b {
+  color: var(--ink);
+}
 .signin__title {
   font-family: var(--font-display);
   font-size: calc(clamp(22px, 5vw, 28px) * var(--tsc));
@@ -875,6 +888,14 @@ button {
 }
 .weekpicker__print:active {
   transform: scale(0.97);
+}
+.weekpicker__note {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+  font-size: calc(14px * var(--tsc));
+  line-height: 1.5;
+  color: var(--muted);
+  text-wrap: pretty;
 }
 
 /* ---------- Too-hard callout ---------- */
