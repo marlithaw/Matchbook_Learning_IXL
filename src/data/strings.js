@@ -116,10 +116,6 @@ export const T = {
   noWork: { en: 'Nothing assigned for this day.', es: 'Nada asignado para este día.' },
   weekNavLabel: { en: 'Go to a week', es: 'Ir a una semana' },
   weekDoneBadge: { en: 'All nights done', es: 'Todas las noches hechas' },
-  weekArchiveNote: {
-    en: 'Every week stays here — the checkmarks you make are saved for each week on its own. Tap any week to review it.',
-    es: 'Cada semana se queda aquí — las marcas que hace se guardan por separado para cada semana. Toque cualquier semana para repasarla.',
-  },
   weekWord: { en: 'Week', es: 'Semana' },
   dayWord: { en: 'Day', es: 'Día' },
   printBtn: { en: 'Print this week', es: 'Imprimir la semana' },
