@@ -160,6 +160,7 @@ export default function GradeView({
         <button type="button" onClick={onPrint} className="weekpicker__print">
           {s.printBtn}
         </button>
+        <p className="weekpicker__note">{s.weekArchiveNote}</p>
       </div>
 
       <div className="toohard">

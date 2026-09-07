@@ -22,6 +22,9 @@ export default function SignInNotice({ s, compact = false }) {
   return (
     <section className="signin" aria-label={s.activateTitle}>
       <span className="signin__tag">{s.activateBadge}</span>
+      <p className="signin__lead">
+        <b>{s.activateLeadQ}</b> {s.activateLead}
+      </p>
       <h2 className="signin__title">{s.activateTitle}</h2>
       <ol className="signin__steps">
         {steps.map(([lead, rest], i) => (
