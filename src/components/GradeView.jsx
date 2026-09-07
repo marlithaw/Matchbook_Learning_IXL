@@ -2,7 +2,7 @@
 // practice, week picker + print, too-hard callout, plus-reading note.
 
 import TaskRow from './TaskRow.jsx'
-import SignInNotice from './SignInNotice.jsx'
+import WeekNav from './WeekNav.jsx'
 
 export default function GradeView({
   s,
@@ -24,9 +24,8 @@ export default function GradeView({
   onToggleFluAll,
   fluAllLabel,
   weekDays,
-  weekValue,
-  weekOptions,
-  onWeekChange,
+  weekNav,
+  onSelectWeek,
   onPrint,
   backTitle,
   backBody,
@@ -43,14 +42,14 @@ export default function GradeView({
         <h1 className="h1 h1--grade">{s.tonightTitle}</h1>
       </div>
 
-      <SignInNotice s={s} compact />
-
       <div className="weekbanner weekbanner--grade">
         <div className="weekbanner__label">{s.weekLabel}</div>
         <div className="weekbanner__line">{weekLine}</div>
         <div className="weekbanner__date">{dateLine}</div>
         {stateNote ? <div className="weekbanner__note">{stateNote}</div> : null}
       </div>
+
+      <WeekNav s={s} weeks={weekNav} onSelect={onSelectWeek} />
 
       <div className="tabs">
         <button
@@ -147,20 +146,9 @@ export default function GradeView({
       )}
 
       <div className="weekpicker">
-        <label htmlFor="wsel" className="weekpicker__label">
-          {s.otherWeek}
-        </label>
-        <select id="wsel" value={weekValue} onChange={onWeekChange} className="weekpicker__select">
-          {weekOptions.map((o) => (
-            <option value={o.value} key={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
         <button type="button" onClick={onPrint} className="weekpicker__print">
           {s.printBtn}
         </button>
-        <p className="weekpicker__note">{s.weekArchiveNote}</p>
       </div>
 
       <div className="toohard">

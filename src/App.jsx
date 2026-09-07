@@ -17,6 +17,7 @@ import {
 import { createCalendar, maxWeek, skillsFor } from './lib/calendar.js'
 import { readString, readJSON, write, KEYS } from './lib/storage.js'
 import Header from './components/Header.jsx'
+import LoginBanner from './components/LoginBanner.jsx'
 import Home from './components/Home.jsx'
 import GradeView from './components/GradeView.jsx'
 import Accordion from './components/Accordion.jsx'
@@ -304,6 +305,32 @@ export default function App() {
       return { label: dayNames[d - 1], filled }
     })
 
+    // Per-week navigator data. A week is "done" when every task-bearing night
+    // that week is fully checked — done state is keyed by week, so each week's
+    // progress is independent and persists as new weeks are added.
+    const weekComplete = (w) => {
+      let hasWork = false
+      for (let d = 1; d <= 5; d++) {
+        const math = skillsFor(data, 'math', g.g, w, d)
+        const ela = skillsFor(data, 'ela', g.g, w, d)
+        if (math.length + ela.length === 0) continue
+        hasWork = true
+        const mathDone = math.every((_, i) => !!done[`${g.g}|${w}|${d}|math|${i}`])
+        const elaDone = ela.every((_, i) => !!done[`${g.g}|${w}|${d}|ela|${i}`])
+        if (!(mathDone && elaDone)) return false
+      }
+      return hasWork
+    }
+    const weekNav = Array.from({ length: last }, (_, i) => {
+      const w = i + 1
+      const dt = calendar.dateOf(w, 1)
+      const short =
+        lang === 'es'
+          ? `${dt.getDate()} de ${MONTHS.es[dt.getMonth()]}`
+          : `${MONTHS.en[dt.getMonth()]} ${dt.getDate()}`
+      return { week: w, date: short, isCurrent: w === wk, done: weekComplete(w) }
+    })
+
     const idx = GRADES.map((x) => x.slug).indexOf(g.slug)
 
     gradeVM = {
@@ -327,11 +354,7 @@ export default function App() {
       hasMoreFluency: fluList.length > 3,
       fluAllLabel: fluAll ? s.fluLess : `${s.fluSeeAll} (${fluList.length})`,
       weekDays,
-      weekValue: String(wk),
-      weekOptions: Array.from({ length: last }, (_, i) => ({
-        value: String(i + 1),
-        label: `${s.weekWord} ${i + 1} · ${calendar.fmtDate(calendar.dateOf(i + 1, 1), lang)}`,
-      })),
+      weekNav,
       printWeekLine: `${s.weekWord} ${wk} · ${calendar.fmtDate(calendar.dateOf(wk, 1), lang)}`,
       hasPrevGrade: idx > 0,
       backBody: idx > 0 ? s.backBody : s.backNoneK,
@@ -354,6 +377,7 @@ export default function App() {
           onToggleLang={toggleLang}
         />
         <main className="main">
+          <LoginBanner s={s} />
           {isHome ? (
             <Home
               s={s}
@@ -389,11 +413,11 @@ export default function App() {
               onToggleFluAll={() => setFluAll((v) => !v)}
               fluAllLabel={gradeVM.fluAllLabel}
               weekDays={gradeVM.weekDays}
-              weekValue={gradeVM.weekValue}
-              weekOptions={gradeVM.weekOptions}
-              onWeekChange={(e) => {
-                setWeek(Number(e.target.value))
+              weekNav={gradeVM.weekNav}
+              onSelectWeek={(w) => {
+                setWeek(w)
                 setFluAll(false)
+                scrollTop()
               }}
               onPrint={() => {
                 try {
