@@ -48,7 +48,6 @@ export default function WeekNav({ s, weeks, onSelect }) {
           </button>
         ))}
       </div>
-      <p className="weeknav__note">{s.weekArchiveNote}</p>
     </nav>
   )
 }

@@ -921,13 +921,6 @@ button {
 .weekchip--on .weekchip__done {
   color: var(--dream-yellow);
 }
-.weeknav__note {
-  margin: 12px 0 0;
-  font-size: calc(14px * var(--tsc));
-  line-height: 1.5;
-  color: var(--slate);
-  text-wrap: pretty;
-}
 
 /* ---------- Print button ---------- */
 .weekpicker {
