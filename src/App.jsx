@@ -331,8 +331,6 @@ export default function App() {
       return { week: w, date: short, isCurrent: w === wk, done: weekComplete(w) }
     })
 
-    const idx = GRADES.map((x) => x.slug).indexOf(g.slug)
-
     gradeVM = {
       gradeLabel: L(g),
       weekLine: `${s.weekWord} ${wk} · ${s.dayWord} ${day} ${lang === 'es' ? 'de 5' : 'of 5'}`,
@@ -356,10 +354,6 @@ export default function App() {
       weekDays,
       weekNav,
       printWeekLine: `${s.weekWord} ${wk} · ${calendar.fmtDate(calendar.dateOf(wk, 1), lang)}`,
-      hasPrevGrade: idx > 0,
-      backBody: idx > 0 ? s.backBody : s.backNoneK,
-      prevGradeLabel: idx > 0 ? `${s.backBtn} ${L(GRADES[idx - 1])}` : '',
-      onPrevGrade: idx > 0 ? () => openGrade(GRADES[idx - 1].slug) : undefined,
     }
   }
 
@@ -428,11 +422,6 @@ export default function App() {
                   /* ignore */
                 }
               }}
-              backTitle={s.backTitle}
-              backBody={gradeVM.backBody}
-              hasPrevGrade={gradeVM.hasPrevGrade}
-              prevGradeLabel={gradeVM.prevGradeLabel}
-              onPrevGrade={gradeVM.onPrevGrade}
             />
           ) : null}
 

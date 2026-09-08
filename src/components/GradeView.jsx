@@ -1,5 +1,6 @@
 // Grade view: hero, week banner, Tonight / Whole-week tabs, optional extra
-// practice, week picker + print, too-hard callout, plus-reading note.
+// practice, week picker + print, "help is built in" support note, plus-reading
+// note.
 
 import TaskRow from './TaskRow.jsx'
 import WeekNav from './WeekNav.jsx'
@@ -27,11 +28,6 @@ export default function GradeView({
   weekNav,
   onSelectWeek,
   onPrint,
-  backTitle,
-  backBody,
-  hasPrevGrade,
-  prevGradeLabel,
-  onPrevGrade,
 }) {
   const isTonight = mode === 'tonight'
   return (
@@ -151,14 +147,9 @@ export default function GradeView({
         </button>
       </div>
 
-      <div className="toohard">
-        <h3 className="toohard__title">{backTitle}</h3>
-        <p className="toohard__body">{backBody}</p>
-        {hasPrevGrade ? (
-          <button type="button" onClick={onPrevGrade} className="pill pill--ink toohard__btn">
-            {prevGradeLabel} →
-          </button>
-        ) : null}
+      <div className="stuck">
+        <span className="stuck__title">{s.stuckTitle}</span>
+        <p className="stuck__body">{s.stuckBody}</p>
       </div>
 
       <div className="plus">

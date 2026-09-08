@@ -952,31 +952,26 @@ button {
   transform: scale(0.97);
 }
 
-/* ---------- Too-hard callout ---------- */
-.toohard {
+/* ---------- "Help is built in" support note ---------- */
+.stuck {
   margin-top: 26px;
-  background: var(--dream-yellow);
-  color: var(--ink);
-  padding: 20px;
+  padding-left: 14px;
+  border-left: 4px solid var(--spark-red);
 }
-.toohard__title {
+.stuck__title {
+  display: block;
   font-family: var(--font-cond);
   font-weight: 700;
-  font-size: calc(20px * var(--tsc));
-  line-height: 1.15;
+  font-size: calc(17px * var(--tsc));
   text-transform: uppercase;
-  margin: 0;
+  color: var(--ink);
 }
-.toohard__body {
+.stuck__body {
   font-size: calc(16.5px * var(--tsc));
   line-height: 1.6;
-  color: var(--ink);
-  margin: 10px 0 0;
+  color: var(--slate);
+  margin: 8px 0 0;
   text-wrap: pretty;
-}
-.toohard__btn {
-  margin-top: 16px;
-  min-height: 50px;
 }
 
 /* ---------- Plus reading ---------- */
