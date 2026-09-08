@@ -134,15 +134,10 @@ export const T = {
     en: 'A real book, every night, in any language you speak at home. It does not replace anything above. You reading to your child counts. Your child reading to you counts. Twenty minutes.',
     es: 'Un libro de verdad, cada noche, en el idioma que hablen en casa. No reemplaza nada de lo anterior. Que usted le lea a su hijo cuenta. Que su hijo le lea a usted cuenta. Veinte minutos.',
   },
-  backTitle: { en: 'Is this too hard right now?', es: '¿Esto es demasiado difícil ahora?' },
-  backBody: {
-    en: 'Then go back. Learning is sequential. A child who cannot do this grade’s work is missing something from an earlier grade, and the fix is to go get it, not to keep struggling. Going back is not falling behind. It is how a child catches up.',
-    es: 'Entonces regrese. El aprendizaje es secuencial. A un niño que no puede hacer el trabajo de este grado le falta algo de un grado anterior, y la solución es ir a buscarlo, no seguir batallando. Regresar no es quedarse atrás. Es cómo un niño se pone al día.',
-  },
-  backBtn: { en: 'Go to', es: 'Ir a' },
-  backNoneK: {
-    en: 'Kindergarten is where the sequence starts. If your child is struggling here, call us. We want to know.',
-    es: 'Kínder es donde empieza la secuencia. Si su hijo tiene dificultades aquí, llámenos. Queremos saberlo.',
+  stuckTitle: { en: 'Struggling tonight? The help is built in.', es: '¿Batallando esta noche? La ayuda ya viene incluida.' },
+  stuckBody: {
+    en: 'When your child misses a question, IXL shows a step-by-step explanation of that exact problem. Every skill also has a “Learn with an example” and a short “Watch a tutorial” video — with Spanish subtitles, just click CC — that model how to solve it. Have your child use those and try the skill again, right where they are. Still stuck after a night or two? Call us. We would rather hear from you in September than in May.',
+    es: 'Cuando su hijo falla una pregunta, IXL muestra una explicación paso a paso de ese problema exacto. Cada destreza también tiene un “Aprende con un ejemplo” y un video corto llamado “Ver un tutorial” —con subtítulos en español, solo haga clic en CC— que muestran cómo resolverlo. Pida a su hijo que los use y vuelva a intentar la destreza, justo donde está. ¿Sigue atorado después de una noche o dos? Llámenos. Preferimos escucharlo en septiembre y no en mayo.',
   },
   learnTitle: { en: 'Everything else you might ask', es: 'Todo lo demás que podría preguntar' },
   startTitle: { en: 'Start here if IXL is new to you', es: 'Empiece aquí si IXL es nuevo para usted' },
