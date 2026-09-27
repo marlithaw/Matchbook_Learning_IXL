@@ -1,8 +1,7 @@
-// Sticky header. Home shows the wordmark lockup; other views show a back
-// button ("All grades", or "Home" from the teacher codes view). All views show
-// the text-size and language toggles.
+// Sticky header. Home shows the wordmark lockup; the grade view shows a
+// back-to-all-grades button. Both show the text-size and language toggles.
 
-export default function Header({ isHome, s, backLabel, big, onBack, onToggleBig, onToggleLang }) {
+export default function Header({ isHome, s, big, onBack, onToggleBig, onToggleLang }) {
   return (
     <header className="header">
       <div className="header__inner">
@@ -13,7 +12,7 @@ export default function Header({ isHome, s, backLabel, big, onBack, onToggleBig,
           </div>
         ) : (
           <button type="button" onClick={onBack} className="backbtn">
-            ← {backLabel || s.allGrades}
+            ← {s.allGrades}
           </button>
         )}
         <div className="header__spacer" />

@@ -1,6 +1,6 @@
 // Off-screen print sheet: one grade, one week, all five nights. Hidden on
 // screen; revealed by the @media print rules. Reflects the currently selected
-// grade and week. `codeFirst` (teacher codes view) leads each line with the
+// grade and week. `codeFirst` (IXL Code List) leads each line with the
 // skill code instead of a check box.
 
 export default function PrintSheet({ gradeLabel, printWeekLine, weekDays, printFoot, codeFirst = false }) {
@@ -19,7 +19,7 @@ export default function PrintSheet({ gradeLabel, printWeekLine, weekDays, printF
       {weekDays.map((d, i) => (
         <div className="print__day" key={i}>
           <div className="print__dayhead">
-            {d.label} · {d.date}
+            {d.date ? `${d.label} · ${d.date}` : d.label}
           </div>
           {d.tasks.map((k, j) => (
             <div className="print__task" key={j}>
@@ -29,7 +29,12 @@ export default function PrintSheet({ gradeLabel, printWeekLine, weekDays, printF
                 <span className="print__box" />
               )}
               <span className="print__line">
-                <b>{k.subject}</b> · {k.title}{' '}
+                {k.subject ? (
+                  <>
+                    <b>{k.subject}</b> ·{' '}
+                  </>
+                ) : null}
+                {k.title}{' '}
                 {codeFirst ? null : <span className="muted">{k.codeLine}</span>}
               </span>
             </div>

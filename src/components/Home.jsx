@@ -1,5 +1,5 @@
 // Home view: hero, sign-in notice, welcome/avatar card, saved grades, grade
-// picker, current-week banner, staff link to the teacher codes view.
+// picker, current-week banner, link to the IXL Code List.
 
 import SignInNotice from './SignInNotice.jsx'
 
@@ -111,9 +111,9 @@ export default function Home({
         className="stafflink"
       >
         <span className="stafflink__body">
-          <span className="stafflink__kicker">{s.staffKicker}</span>
-          <span className="stafflink__title">{s.staffLinkTitle}</span>
-          <span className="stafflink__sub">{s.staffLinkSub}</span>
+          <span className="stafflink__kicker">{s.glanceKicker}</span>
+          <span className="stafflink__title">{s.glanceTitle}</span>
+          <span className="stafflink__sub">{s.glanceSub}</span>
         </span>
         <span aria-hidden="true" className="task__arrow">
           →

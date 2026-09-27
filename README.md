@@ -10,10 +10,10 @@ setup, fluency, the "why") is secondary and collapsed.
 Built as a small **React + Vite** static site. No backend, no accounts — all
 personalization lives in the browser's `localStorage`.
 
-> **Teachers & staff:** every grade's IXL codes, week by week, are on the site's
-> teacher page — add `#codes` to the site address (e.g. `…/#codes/3` for 3rd
-> grade), or use the "Teachers & staff" card at the bottom of the home page. No
-> Clever login needed.
+> **IXL Code List:** every grade's IXL codes, week at a glance, for anyone who
+> doesn't go through Clever — add `#codes` to the site address (`…/#codes/3` for
+> 3rd grade, `…/#codes/all` for every grade), or use the "Week at a glance" card
+> at the bottom of the home page.
 
 ## Getting started
 
@@ -37,11 +37,14 @@ Three views inside one page (no router needed):
 2. **Grade** — tonight's practice for one grade, with a **Tonight / Whole week**
    tab switch, optional extra practice (IREAD + fluency), a week picker, a
    printable sheet, and supporting callouts.
-3. **Teacher codes** (`#codes`, `#codes/<grade>`) — for staff who don't enter
-   through Clever: a grade picker, the week navigator, and every school night's
-   skills listed by IXL code (tap a code to copy it, tap the skill to open it),
-   including optional IREAD for grades 2–4. Prints a one-page code sheet. The
-   URL hash makes it bookmarkable and shareable.
+3. **IXL Code List** (`#codes`, `#codes/<grade>`, `#codes/all`) — a week at a
+   glance for anyone who doesn't reach the skills through Clever. Its own dark
+   header; grade circles plus a week dropdown with ‹ › arrows; one grade shows a
+   Day × Math / Reading / IREAD table of subject-colored code chips (stacked day
+   cards on phones), "All grades" shows a Grade × Mon–Fri grid of codes. Codes
+   open the exact skill; Copy (per day) and Copy week put codes on the
+   clipboard; Print gives a one-page code sheet. The URL hash makes it
+   bookmarkable and shareable.
 
 Below Home and Grade: a shared "Everything else you might ask" accordion, a red Help
 block, and the footer. An off-screen print sheet appears only when printing.
