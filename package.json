@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "sync-data": "python3 scripts/sync_ixl_data.py"
+    "sync-data": "python3 scripts/sync_ixl_data.py",
+    "codes-list": "python3 scripts/build_codes_list.py"
   },
   "dependencies": {
     "react": "^18.3.1",

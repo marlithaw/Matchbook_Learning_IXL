@@ -14,7 +14,8 @@ Usage:
   # "anyone with the link"; otherwise the download is an HTML login page):
   python3 scripts/sync_ixl_data.py --sheet-id 17qR2VLb_9qRrhBUMLbsmLbRgXcfeSqbJYzYhvQyi0JA
 
-Output: public/ixl-data.json (relative to the repo root).
+Output: public/ixl-data.json (relative to the repo root), then the teacher
+code lists in ixl-codes/ via build_codes_list.py.
 
 Sheet layout (tabs):
   Math <grade> K-8, ELA <grade> K-8 : Grade | Week & Day | IXL Skill | Skill Code
@@ -230,6 +231,10 @@ def main():
     print(f'  skills: {total}, missing links: {missing}')
     if missing:
         print('  WARNING: some skill cells had no hyperlink; those links will be blank.')
+
+    # Keep the teacher-facing code lists (ixl-codes/) in step with the data.
+    import build_codes_list
+    build_codes_list.main()
 
 
 if __name__ == '__main__':

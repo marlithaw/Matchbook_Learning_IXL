@@ -1,0 +1,23 @@
+name: Check IXL code lists
+
+# ixl-codes/*.md is generated from public/ixl-data.json and src/config.js.
+# Fail if someone changes either without regenerating, so the teacher lists
+# never disagree with what the site shows students.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/build_codes_list.py --check
