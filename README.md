@@ -10,6 +10,11 @@ setup, fluency, the "why") is secondary and collapsed.
 Built as a small **React + Vite** static site. No backend, no accounts — all
 personalization lives in the browser's `localStorage`.
 
+> **IXL Code List:** every grade's IXL codes, week at a glance, for anyone who
+> doesn't go through Clever — add `#codes` to the site address (`…/#codes/3` for
+> 3rd grade, `…/#codes/all` for every grade), or use the "Week at a glance" card
+> at the bottom of the home page.
+
 ## Getting started
 
 ```bash
@@ -25,15 +30,23 @@ under a sub-path, set `base` in `vite.config.js`.
 
 ## How it works
 
-Two views inside one page (no router needed):
+Three views inside one page (no router needed):
 
 1. **Home** — hero, welcome/read-aloud card, saved grades, grade picker, and a
    current-week banner.
 2. **Grade** — tonight's practice for one grade, with a **Tonight / Whole week**
    tab switch, optional extra practice (IREAD + fluency), a week picker, a
    printable sheet, and supporting callouts.
+3. **IXL Code List** (`#codes`, `#codes/<grade>`, `#codes/all`) — a week at a
+   glance for anyone who doesn't reach the skills through Clever. Its own dark
+   header; grade circles plus a week dropdown with ‹ › arrows; one grade shows a
+   Day × Math / Reading / IREAD table of subject-colored code chips (stacked day
+   cards on phones), "All grades" shows a Grade × Mon–Fri grid of codes. Codes
+   open the exact skill; Copy (per day) and Copy week put codes on the
+   clipboard; Print gives a one-page code sheet. The URL hash makes it
+   bookmarkable and shareable.
 
-Below both: a shared "Everything else you might ask" accordion, a red Help
+Below Home and Grade: a shared "Everything else you might ask" accordion, a red Help
 block, and the footer. An off-screen print sheet appears only when printing.
 
 ### Behavior highlights
@@ -127,8 +140,8 @@ src/lib/calendar.js          week/day math + skill lookup
 src/lib/storage.js           guarded localStorage helpers
 src/styles/tokens.css        design tokens (ported from the design system)
 src/styles/app.css           layout & component styles
-src/components/*.jsx         Header, Home, GradeView, Accordion, HelpFooter,
-                             TaskRow, PrintSheet
+src/components/*.jsx         Header, Home, GradeView, CodesView, Accordion,
+                             HelpFooter, TaskRow, WeekNav, PrintSheet
 src/App.jsx                  state + view-model orchestration
 ```
 

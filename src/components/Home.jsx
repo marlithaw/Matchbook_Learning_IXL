@@ -1,5 +1,5 @@
 // Home view: hero, sign-in notice, welcome/avatar card, saved grades, grade
-// picker, current-week banner.
+// picker, current-week banner, link to the IXL Code List.
 
 import SignInNotice from './SignInNotice.jsx'
 
@@ -15,6 +15,8 @@ export default function Home({
   gradeCards,
   homeWeekLine,
   homeDateLine,
+  codesHref,
+  onOpenCodes,
 }) {
   return (
     <>
@@ -99,6 +101,24 @@ export default function Home({
         <div className="weekbanner__line">{homeWeekLine}</div>
         <div className="weekbanner__date">{homeDateLine}</div>
       </div>
+
+      <a
+        href={codesHref}
+        onClick={(e) => {
+          e.preventDefault()
+          onOpenCodes()
+        }}
+        className="glancelink"
+      >
+        <span className="glancelink__body">
+          <span className="glancelink__kicker">{s.glanceKicker}</span>
+          <span className="glancelink__title">{s.glanceTitle}</span>
+          <span className="glancelink__sub">{s.glanceSub}</span>
+        </span>
+        <span aria-hidden="true" className="task__arrow">
+          →
+        </span>
+      </a>
     </>
   )
 }

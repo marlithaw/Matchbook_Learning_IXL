@@ -29,6 +29,7 @@
   --dark-card-body: #e8e6e2; /* welcome card body text */
   --fluency-label: #b07000; /* darkened gold, small text */
   --iread-label: #7a5a00; /* darkened gold, small text */
+  --today-tint: #fff8e1; /* today's row in the IXL Code List */
 
   /* ---------- TYPE FAMILIES ---------- */
   --font-display: 'Anton', 'Arial Narrow', sans-serif;
