@@ -1228,7 +1228,7 @@ button {
 
 /* ---------- IXL Code List (#codes) ---------- */
 /* Home entry point to the IXL Code List. */
-.stafflink {
+.glancelink {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -1240,14 +1240,14 @@ button {
   text-decoration: none;
   transition: background var(--dur) var(--ease);
 }
-.stafflink:hover {
+.glancelink:hover {
   background: var(--paper);
 }
-.stafflink__body {
+.glancelink__body {
   flex: 1;
   min-width: 0;
 }
-.stafflink__kicker {
+.glancelink__kicker {
   display: block;
   font-family: var(--font-cond);
   font-weight: 600;
@@ -1256,7 +1256,7 @@ button {
   text-transform: uppercase;
   color: var(--spark-red);
 }
-.stafflink__title {
+.glancelink__title {
   display: block;
   font-family: var(--font-cond);
   font-weight: 700;
@@ -1265,7 +1265,7 @@ button {
   line-height: 1.15;
   margin-top: 3px;
 }
-.stafflink__sub {
+.glancelink__sub {
   display: block;
   font-size: calc(15px * var(--tsc));
   line-height: 1.45;

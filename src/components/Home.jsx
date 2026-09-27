@@ -108,12 +108,12 @@ export default function Home({
           e.preventDefault()
           onOpenCodes()
         }}
-        className="stafflink"
+        className="glancelink"
       >
-        <span className="stafflink__body">
-          <span className="stafflink__kicker">{s.glanceKicker}</span>
-          <span className="stafflink__title">{s.glanceTitle}</span>
-          <span className="stafflink__sub">{s.glanceSub}</span>
+        <span className="glancelink__body">
+          <span className="glancelink__kicker">{s.glanceKicker}</span>
+          <span className="glancelink__title">{s.glanceTitle}</span>
+          <span className="glancelink__sub">{s.glanceSub}</span>
         </span>
         <span aria-hidden="true" className="task__arrow">
           →
