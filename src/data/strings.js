@@ -208,6 +208,32 @@ export const T = {
   },
   callBtn: { en: 'Call', es: 'Llamar' },
   textBtn: { en: 'Send a text', es: 'Enviar mensaje' },
+  // ---- Teacher codes view ----
+  staffKicker: { en: 'Teachers & staff', es: 'Maestros y personal' },
+  staffLinkTitle: { en: 'See every IXL code by week', es: 'Ver todos los códigos de IXL por semana' },
+  staffLinkSub: {
+    en: 'The exact skill codes students are assigned, for every grade and school night.',
+    es: 'Los códigos exactos asignados a los estudiantes, para cada grado y noche escolar.',
+  },
+  codesKicker: { en: 'For teachers & staff', es: 'Para maestros y personal' },
+  codesTitle: { en: 'IXL codes by week', es: 'Códigos de IXL por semana' },
+  codesLede: {
+    en: 'The same skills students reach through Clever, listed by code. Students type a code into the IXL search bar to open that exact skill.',
+    es: 'Las mismas destrezas que los estudiantes abren desde Clever, por código. Los estudiantes escriben el código en la barra de búsqueda de IXL para abrir esa destreza exacta.',
+  },
+  gradeLabel: { en: 'Grade', es: 'Grado' },
+  showingLabel: { en: 'Showing', es: 'Mostrando' },
+  thisWeekTag: { en: 'This week', es: 'Esta semana' },
+  backToThisWeek: { en: 'Back to this week', es: 'Volver a esta semana' },
+  copyWord: { en: 'Copy', es: 'Copiar' },
+  copiedWord: { en: 'Copied', es: 'Copiado' },
+  copyCodeLabel: { en: 'Copy code', es: 'Copiar código' },
+  optionalWord: { en: 'Optional', es: 'Opcional' },
+  homeBtn: { en: 'Home', es: 'Inicio' },
+  codesPrintFoot: {
+    en: 'Students type each code into the IXL search bar. Stop at a SmartScore of 80.',
+    es: 'Los estudiantes escriben cada código en la barra de búsqueda de IXL. Paren en un SmartScore de 80.',
+  },
   foot: {
     en: 'Matchbook Learning at Wendell Phillips School 63 · 1163 North Belmont Avenue, Indianapolis, IN 46222',
     es: 'Matchbook Learning at Wendell Phillips School 63 · 1163 North Belmont Avenue, Indianapolis, IN 46222',

@@ -20,11 +20,24 @@ import Header from './components/Header.jsx'
 import LoginBanner from './components/LoginBanner.jsx'
 import Home from './components/Home.jsx'
 import GradeView from './components/GradeView.jsx'
+import CodesView from './components/CodesView.jsx'
 import Accordion from './components/Accordion.jsx'
 import HelpFooter from './components/HelpFooter.jsx'
 import PrintSheet from './components/PrintSheet.jsx'
 
 const OPEN_INIT = { start: false, score: false, flu: false, app: false, why: false }
+
+// Teacher codes view lives at #codes (or #codes/<grade>, e.g. #codes/3) so
+// staff can bookmark or share a link straight to it.
+function parseCodesHash() {
+  const m = /^#codes(?:\/([^/?#]+))?/i.exec((typeof window !== 'undefined' && window.location.hash) || '')
+  if (!m) return null
+  const g = (m[1] || '').toUpperCase()
+  return { grade: GRADES.some((x) => x.g === g) ? g : null }
+}
+function codesHash(g) {
+  return g ? `#codes/${g}` : '#codes'
+}
 
 export default function App() {
   const [data, setData] = useState(null)
@@ -39,6 +52,8 @@ export default function App() {
   const [speaking, setSpeaking] = useState(false)
   const [fluAll, setFluAll] = useState(false)
   const [open, setOpen] = useState(OPEN_INIT)
+  const [codesGrade, setCodesGrade] = useState(null)
+  const [codesWeek, setCodesWeek] = useState(null)
 
   const calendar = useMemo(() => createCalendar(config.startDate, config.skipWeeks), [])
 
@@ -57,8 +72,13 @@ export default function App() {
     setSaved(initSaved)
     setDone(initDone)
     applyScale(initBig)
-    // Return visit: exactly one saved grade opens straight to it.
-    if (initSaved.length === 1) {
+    const codesRoute = parseCodesHash()
+    if (codesRoute) {
+      // A #codes link always wins over the return-visit shortcut.
+      setView('codes')
+      setCodesGrade(codesRoute.grade || defaultCodesGrade(initSaved))
+    } else if (initSaved.length === 1) {
+      // Return visit: exactly one saved grade opens straight to it.
       setView('grade')
       setGrade(initSaved[0])
     }
@@ -70,8 +90,21 @@ export default function App() {
         if (alive) setData(d)
       })
       .catch(() => {})
+
+    // Browser back/forward in and out of #codes.
+    const onHash = () => {
+      const r = parseCodesHash()
+      if (r) {
+        setView('codes')
+        if (r.grade) setCodesGrade(r.grade)
+      } else {
+        setView((v) => (v === 'codes' ? 'home' : v))
+      }
+    }
+    window.addEventListener('hashchange', onHash)
     return () => {
       alive = false
+      window.removeEventListener('hashchange', onHash)
       try {
         window.speechSynthesis.cancel()
       } catch {
@@ -79,6 +112,11 @@ export default function App() {
       }
     }
   }, [])
+
+  function defaultCodesGrade(savedSlugs) {
+    const first = GRADES.find((x) => x.slug === (savedSlugs || [])[0])
+    return first ? first.g : 'K'
+  }
 
   function applyScale(isBig) {
     try {
@@ -125,6 +163,13 @@ export default function App() {
     setBig(next)
   }
   const goHome = () => {
+    if (parseCodesHash()) {
+      try {
+        window.history.pushState(null, '', window.location.pathname + window.location.search)
+      } catch {
+        /* ignore */
+      }
+    }
     setView('home')
     setMode('tonight')
     setFluAll(false)
@@ -140,6 +185,26 @@ export default function App() {
     setMode('tonight')
     setFluAll(false)
     scrollTop()
+  }
+  const openCodes = () => {
+    const cg = codesGrade || defaultCodesGrade(saved)
+    try {
+      window.history.pushState(null, '', codesHash(cg))
+    } catch {
+      /* ignore */
+    }
+    setCodesGrade(cg)
+    setCodesWeek(null)
+    setView('codes')
+    scrollTop()
+  }
+  const selectCodesGrade = (cg) => {
+    try {
+      window.history.replaceState(null, '', codesHash(cg))
+    } catch {
+      /* ignore */
+    }
+    setCodesGrade(cg)
   }
   const removeGrade = (slug) => {
     const nextSaved = saved.filter((x) => x !== slug)
@@ -198,6 +263,7 @@ export default function App() {
   const smsHref = `sms:${digits}`
   const video = config.welcomeVideoUrl || ''
   const isHome = view === 'home'
+  const isCodes = view === 'codes'
   const g = GRADES.find((x) => x.slug === grade) || null
 
   const savedCards = saved
@@ -357,6 +423,70 @@ export default function App() {
     }
   }
 
+  // Teacher codes view data.
+  let codesVM = null
+  if (data && isCodes) {
+    const cg = codesGrade || 'K'
+    const gradeMeta = GRADES.find((x) => x.g === cg) || GRADES[0]
+    const last = maxWeek(data, cg)
+    const pos = calendar.currentPos(last)
+    const wk = Math.min(codesWeek || pos.week, last)
+    const dayNames = WEEKDAY_NAMES[lang] || WEEKDAY_NAMES.en
+    const shortDate = (dt) =>
+      lang === 'es'
+        ? `${dt.getDate()} de ${MONTHS.es[dt.getMonth()]}`
+        : `${MONTHS.en[dt.getMonth()]} ${dt.getDate()}`
+    const row = (kind, item, optional) => ({
+      code: item[2] || '',
+      title: item[0],
+      url: `https://www.ixl.com/${item[1]}`,
+      subject: optional ? `${L(SUBJ[kind])} · ${s.optionalWord}` : L(SUBJ[kind]),
+      subjColor: SUBJ[kind].color,
+      optional,
+    })
+    const withIread = IREAD_GRADES.indexOf(cg) !== -1
+    const days = [1, 2, 3, 4, 5].map((d) => {
+      const rows = []
+      skillsFor(data, 'math', cg, wk, d).forEach((it) => rows.push(row('math', it, false)))
+      skillsFor(data, 'ela', cg, wk, d).forEach((it) => rows.push(row('ela', it, false)))
+      if (withIread) skillsFor(data, 'iread', cg, wk, d).forEach((it) => rows.push(row('iread', it, true)))
+      return {
+        label: dayNames[d - 1],
+        date: shortDate(calendar.dateOf(wk, d)),
+        isToday: pos.state === 'school' && wk === pos.week && d === pos.day,
+        rows,
+      }
+    })
+    codesVM = {
+      gradeLabel: L(gradeMeta),
+      grades: GRADES.map((x) => ({
+        slug: x.slug,
+        badge: x.badge,
+        label: L(x),
+        isOn: x.g === cg,
+        onSelect: () => selectCodesGrade(x.g),
+      })),
+      weekLine: `${L(gradeMeta)} · ${s.weekWord} ${wk}`,
+      rangeLine: `${shortDate(calendar.dateOf(wk, 1))} – ${shortDate(calendar.dateOf(wk, 5))}, ${calendar
+        .dateOf(wk, 5)
+        .getFullYear()}`,
+      isThisWeek: wk === pos.week,
+      weekNav: Array.from({ length: last }, (_, i) => ({
+        week: i + 1,
+        date: shortDate(calendar.dateOf(i + 1, 1)),
+        isCurrent: i + 1 === wk,
+        done: false,
+      })),
+      days,
+      printWeekLine: `${s.weekWord} ${wk} · ${shortDate(calendar.dateOf(wk, 1))} – ${shortDate(calendar.dateOf(wk, 5))}`,
+      printDays: days.map((d) => ({
+        label: d.label,
+        date: d.date,
+        tasks: d.rows.map((r) => ({ subject: r.subject, title: r.title, codeLine: r.code })),
+      })),
+    }
+  }
+
   const speechUnavailable = typeof window !== 'undefined' && !window.speechSynthesis
 
   return (
@@ -365,6 +495,7 @@ export default function App() {
         <Header
           isHome={isHome}
           s={s}
+          backLabel={isCodes ? s.homeBtn : null}
           big={big}
           onBack={goHome}
           onToggleBig={toggleBig}
@@ -386,8 +517,31 @@ export default function App() {
               gradeCards={gradeCards}
               homeWeekLine={homeWeekLine}
               homeDateLine={homeDateLine}
+              codesHref={codesHash(null)}
+              onOpenCodes={openCodes}
               />
             </>
+          ) : isCodes ? (
+            codesVM ? (
+              <CodesView
+                s={s}
+                grades={codesVM.grades}
+                weekLine={codesVM.weekLine}
+                rangeLine={codesVM.rangeLine}
+                isThisWeek={codesVM.isThisWeek}
+                onThisWeek={() => setCodesWeek(null)}
+                weekNav={codesVM.weekNav}
+                onSelectWeek={(w) => setCodesWeek(w)}
+                days={codesVM.days}
+                onPrint={() => {
+                  try {
+                    window.print()
+                  } catch {
+                    /* ignore */
+                  }
+                }}
+              />
+            ) : null
           ) : gradeVM ? (
             <GradeView
               s={s}
@@ -425,21 +579,36 @@ export default function App() {
             />
           ) : null}
 
-          <Accordion
-            s={s}
-            open={open}
-            onToggle={toggleSec}
-            startLinks={startLinks}
-            scoreRows={scoreRows}
-            appSteps={appSteps}
-            researchUrl={RESEARCH}
-          />
+          {isCodes ? (
+            // Staff page: the family FAQ and office help block don't apply.
+            <footer className="footer">{s.foot}</footer>
+          ) : (
+            <>
+              <Accordion
+                s={s}
+                open={open}
+                onToggle={toggleSec}
+                startLinks={startLinks}
+                scoreRows={scoreRows}
+                appSteps={appSteps}
+                researchUrl={RESEARCH}
+              />
 
-          <HelpFooter s={s} phone={phone} telHref={telHref} smsHref={smsHref} />
+              <HelpFooter s={s} phone={phone} telHref={telHref} smsHref={smsHref} />
+            </>
+          )}
         </main>
       </div>
 
-      {gradeVM ? (
+      {codesVM ? (
+        <PrintSheet
+          gradeLabel={codesVM.gradeLabel}
+          printWeekLine={codesVM.printWeekLine}
+          weekDays={codesVM.printDays}
+          printFoot={s.codesPrintFoot}
+          codeFirst
+        />
+      ) : gradeVM && !isCodes ? (
         <PrintSheet
           gradeLabel={gradeVM.gradeLabel}
           printWeekLine={gradeVM.printWeekLine}

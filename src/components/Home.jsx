@@ -1,5 +1,5 @@
 // Home view: hero, sign-in notice, welcome/avatar card, saved grades, grade
-// picker, current-week banner.
+// picker, current-week banner, staff link to the teacher codes view.
 
 import SignInNotice from './SignInNotice.jsx'
 
@@ -15,6 +15,8 @@ export default function Home({
   gradeCards,
   homeWeekLine,
   homeDateLine,
+  codesHref,
+  onOpenCodes,
 }) {
   return (
     <>
@@ -99,6 +101,24 @@ export default function Home({
         <div className="weekbanner__line">{homeWeekLine}</div>
         <div className="weekbanner__date">{homeDateLine}</div>
       </div>
+
+      <a
+        href={codesHref}
+        onClick={(e) => {
+          e.preventDefault()
+          onOpenCodes()
+        }}
+        className="stafflink"
+      >
+        <span className="stafflink__body">
+          <span className="stafflink__kicker">{s.staffKicker}</span>
+          <span className="stafflink__title">{s.staffLinkTitle}</span>
+          <span className="stafflink__sub">{s.staffLinkSub}</span>
+        </span>
+        <span aria-hidden="true" className="task__arrow">
+          →
+        </span>
+      </a>
     </>
   )
 }
