@@ -923,6 +923,46 @@ button {
   color: var(--dream-yellow);
 }
 
+/* Break-week marker between week chips. */
+.weekchip--break {
+  border-style: dashed;
+  border-color: var(--gold);
+  background: var(--paper);
+}
+.weekchip--break:disabled {
+  cursor: default;
+}
+.weekchip--break:disabled:hover {
+  background: var(--paper);
+}
+.weekchip--break .weekchip__name {
+  color: var(--iread-label);
+}
+.weekchip--breakon,
+.weekchip--breakon:hover {
+  border-style: solid;
+  border-color: var(--gold);
+  background: var(--dream-yellow);
+}
+
+/* ---------- Catch-up week (break) ---------- */
+.catchup {
+  margin-top: 22px;
+}
+.catchup__label {
+  margin-top: 18px;
+}
+.catchup .tasklist {
+  margin-top: 10px;
+}
+.catchup__intro {
+  margin-top: 0;
+}
+.stuck.catchup__dash {
+  margin-top: 24px;
+  border-left-color: var(--gold);
+}
+
 /* ---------- Print button ---------- */
 .weekpicker {
   display: flex;
@@ -1454,6 +1494,16 @@ button {
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
+}
+/* Break-week note above the week card. */
+.cl-break {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: var(--dream-yellow);
+  border-left: 5px solid var(--gold);
+  font-size: calc(15px * var(--tsc));
+  line-height: 1.5;
+  color: var(--ink);
 }
 /* Week card. */
 .cl-card {

@@ -129,6 +129,33 @@ export const T = {
   },
   weekendMsg: { en: 'Weekend. Below is what is waiting on Monday.', es: 'Fin de semana. Abajo está lo que espera el lunes.' },
   afterEnd: { en: 'The assigned weeks are finished. Below is the last week.', es: 'Las semanas asignadas terminaron. Abajo está la última semana.' },
+  // ---- Break (catch-up) weeks ----
+  breakNoNew: { en: 'No new skills this week', es: 'No hay destrezas nuevas esta semana' },
+  breakTag: { en: 'Catch-up week', es: 'Semana para ponerse al día' },
+  breakBody: {
+    en: 'School is out, so no new skills are assigned. Use the week to finish anything still open from earlier weeks, then explore extra practice on your child’s IXL dashboard.',
+    es: 'No hay clases, así que no se asignan destrezas nuevas. Use la semana para terminar lo pendiente de semanas anteriores y luego explore práctica adicional en el panel de IXL de su hijo.',
+  },
+  breakOpenLabel: { en: 'Still open from earlier weeks', es: 'Pendiente de semanas anteriores' },
+  breakAllDone: {
+    en: 'Everything from these weeks is checked off. Great work!',
+    es: 'Todo lo de estas semanas está marcado como hecho. ¡Excelente trabajo!',
+  },
+  breakDashTitle: { en: 'Want more?', es: '¿Quiere más?' },
+  breakDash: {
+    en: 'On IXL, the Recommendations section of the dashboard has extra skills picked just for your child. Any of them counts as practice this week.',
+    es: 'En IXL, la sección de Recomendaciones del panel tiene destrezas adicionales escogidas para su hijo. Cualquiera cuenta como práctica esta semana.',
+  },
+  resumesWord: { en: 'starts', es: 'empieza el' },
+  showAllOpen: { en: 'Show all', es: 'Ver todas' },
+  showFewer: { en: 'Show fewer', es: 'Mostrar menos' },
+  tabCatchUp: { en: 'Catch-up week', es: 'Ponerse al día' },
+  tabNextWeek: { en: 'Next week', es: 'Próxima semana' },
+  nextWord: { en: 'next', es: 'próxima' },
+  codesBreakNote: {
+    en: 'no new codes this week. Students can catch up on skills they missed or explore extra practice on their IXL dashboard.',
+    es: 'no hay códigos nuevos esta semana. Los estudiantes pueden terminar destrezas pendientes o explorar práctica adicional en su panel de IXL.',
+  },
   plusTitle: { en: 'Plus 20 minutes of reading, off the screen', es: 'Y 20 minutos de lectura, fuera de la pantalla' },
   plusBody: {
     en: 'A real book, every night, in any language you speak at home. It does not replace anything above. You reading to your child counts. Your child reading to you counts. Twenty minutes.',
