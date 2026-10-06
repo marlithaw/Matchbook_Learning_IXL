@@ -55,8 +55,9 @@ export default function App() {
   const [open, setOpen] = useState(OPEN_INIT)
   const [codesGrade, setCodesGrade] = useState(null)
   const [codesWeek, setCodesWeek] = useState(null)
+  const [openAll, setOpenAll] = useState(false)
 
-  const calendar = useMemo(() => createCalendar(config.startDate, config.skipWeeks), [])
+  const calendar = useMemo(() => createCalendar(config.startDate, config.breaks), [])
 
   // ---- mount: hydrate persisted state, load data ----
   useEffect(() => {
@@ -305,13 +306,25 @@ export default function App() {
     { n: '3', text: s.app3 },
   ]
 
+  // "October 12 – October 16" (or "12 de octubre – 16 de octubre").
+  const longDate = (dt) =>
+    lang === 'es' ? `${dt.getDate()} de ${MONTHS.es[dt.getMonth()]}` : `${MONTHS.en[dt.getMonth()]} ${dt.getDate()}`
+  const breakRange = (b) => `${longDate(b.from)} – ${longDate(b.to)}`
+  // "Week 7 starts Monday, October 19."
+  const resumesLine = (w) => `${s.weekWord} ${w} ${s.resumesWord} ${calendar.fmtDate(calendar.dateOf(w, 1), lang)}.`
+
   // Home current-week banner uses grade 3 as the (shared) calendar reference.
   let homeWeekLine = ''
   let homeDateLine = ''
   if (data) {
     const hp = calendar.currentPos(maxWeek(data, '3'))
-    homeWeekLine = `${s.weekWord} ${hp.week} · ${s.dayWord} ${hp.day} ${lang === 'es' ? 'de 5' : 'of 5'}`
-    homeDateLine = calendar.fmtDate(calendar.dateOf(hp.week, hp.day), lang)
+    if (hp.state === 'break') {
+      homeWeekLine = `${L(hp.brk)} · ${s.breakNoNew}`
+      homeDateLine = `${breakRange(hp.brk)}. ${resumesLine(hp.week)}`
+    } else {
+      homeWeekLine = `${s.weekWord} ${hp.week} · ${s.dayWord} ${hp.day} ${lang === 'es' ? 'de 5' : 'of 5'}`
+      homeDateLine = calendar.fmtDate(calendar.dateOf(hp.week, hp.day), lang)
+    }
   }
 
   // Grade-view data.
@@ -321,6 +334,8 @@ export default function App() {
     const wk = week || pos.week
     const day = week && week !== pos.week ? 1 : pos.day
     const last = maxWeek(data, g.g)
+    // Break week and no week picked: show the catch-up week, not new skills.
+    const breakMode = pos.state === 'break' && !week
 
     const tonightTasks = []
     skillsFor(data, 'math', g.g, wk, day).forEach((it, i) =>
@@ -388,22 +403,69 @@ export default function App() {
       }
       return hasWork
     }
-    const weekNav = Array.from({ length: last }, (_, i) => {
-      const w = i + 1
-      const dt = calendar.dateOf(w, 1)
-      const short =
-        lang === 'es'
-          ? `${dt.getDate()} de ${MONTHS.es[dt.getMonth()]}`
-          : `${MONTHS.en[dt.getMonth()]} ${dt.getDate()}`
-      return { week: w, date: short, isCurrent: w === wk, done: weekComplete(w) }
-    })
+    // Week chips, with a marker for each break between weeks. The marker for
+    // the break happening now is the way back to the catch-up week.
+    const weekNav = []
+    for (let w = 1; w <= last; w++) {
+      calendar.breaksBefore(w).forEach((b) => {
+        const isNow = pos.state === 'break' && pos.brk.en === b.en
+        weekNav.push({
+          key: `b-${b.en}`,
+          isBreak: true,
+          label: L(b),
+          date: longDate(b.from),
+          isCurrent: breakMode && isNow,
+          onSelect: isNow ? () => setWeek(null) : null,
+        })
+      })
+      weekNav.push({
+        key: `w${w}`,
+        week: w,
+        date: longDate(calendar.dateOf(w, 1)),
+        isCurrent: !breakMode && w === wk,
+        done: weekComplete(w),
+      })
+    }
+
+    // Catch-up list: every required skill still unchecked from the weeks
+    // since the last break (or the start), most recent first.
+    let catchUp = null
+    if (breakMode) {
+      let from = pos.week - 1
+      while (from > 1 && calendar.breaksBefore(from).length === 0) from--
+      const open = []
+      for (let w = pos.week - 1; w >= from; w--) {
+        for (let d = 1; d <= 5; d++) {
+          ;['math', 'ela'].forEach((kind) =>
+            skillsFor(data, kind, g.g, w, d).forEach((it, i) => {
+              const t = taskObj(kind, it, g.g, w, d, i)
+              if (t.done) return
+              t.codeLine = `${s.weekWord} ${w} · ${dayNames[d - 1]}${it[2] ? ` · ${tt('codeWord')} ${it[2]}` : ''}`
+              open.push(t)
+            }),
+          )
+        }
+      }
+      catchUp = {
+        tasks: openAll ? open : open.slice(0, 6),
+        total: open.length,
+        hasMore: open.length > 6,
+        moreLabel: openAll ? s.showFewer : `${s.showAllOpen} (${open.length})`,
+        onToggleMore: () => setOpenAll((v) => !v),
+      }
+    }
 
     gradeVM = {
       gradeLabel: L(g),
-      weekLine: `${s.weekWord} ${wk} · ${s.dayWord} ${day} ${lang === 'es' ? 'de 5' : 'of 5'}`,
-      dateLine: calendar.fmtDate(calendar.dateOf(wk, day), lang),
-      stateNote:
-        pos.state === 'before'
+      weekLine: breakMode
+        ? `${L(pos.brk)} · ${s.breakNoNew}`
+        : `${s.weekWord} ${wk} · ${s.dayWord} ${day} ${lang === 'es' ? 'de 5' : 'of 5'}`,
+      dateLine: breakMode ? breakRange(pos.brk) : calendar.fmtDate(calendar.dateOf(wk, day), lang),
+      breakMode,
+      catchUp,
+      stateNote: breakMode
+        ? resumesLine(pos.week)
+        : pos.state === 'before'
           ? s.beforeStart
           : pos.state === 'weekend'
             ? s.weekendMsg
@@ -455,10 +517,22 @@ export default function App() {
     const vm = {
       mode: isAll ? 'all' : 'grade',
       week: wk,
-      weekOptions: Array.from({ length: last }, (_, i) => ({
-        week: i + 1,
-        label: `${s.weekWord} ${i + 1} · ${monShort(calendar.dateOf(i + 1, 1))}${i + 1 === pos.week ? ` · ${s.nowWord}` : ''}`,
-      })),
+      weekOptions: Array.from({ length: last }, (_, i) => i + 1).flatMap((w) =>
+        calendar
+          .breaksBefore(w)
+          .map((b) => ({ key: `b-${b.en}`, disabled: true, label: `— ${L(b)} · ${monShort(b.from)} —` }))
+          .concat({
+            key: `w${w}`,
+            week: w,
+            label: `${s.weekWord} ${w} · ${monShort(calendar.dateOf(w, 1))}${
+              w === pos.week ? ` · ${pos.state === 'break' ? s.nextWord : s.nowWord}` : ''
+            }`,
+          }),
+      ),
+      breakNote:
+        pos.state === 'break'
+          ? `${L(pos.brk)} (${monShort(pos.brk.from)} ${s.toWord} ${monShort(pos.brk.to)}): ${s.codesBreakNote}`
+          : '',
       onWeek: (w) => setCodesWeek(w),
       canPrev: wk > 1,
       canNext: wk < last,
@@ -608,6 +682,8 @@ export default function App() {
                 weekLine={gradeVM.weekLine}
                 dateLine={gradeVM.dateLine}
                 stateNote={gradeVM.stateNote}
+                breakMode={gradeVM.breakMode}
+                catchUp={gradeVM.catchUp}
                 mode={mode}
                 onShowTonight={() => setMode('tonight')}
                 onShowWeek={() => setMode('week')}

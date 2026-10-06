@@ -1,6 +1,7 @@
 // Grade view: hero, week banner, Tonight / Whole-week tabs, optional extra
 // practice, week picker + print, "help is built in" support note, plus-reading
-// note.
+// note. In a break week the Tonight tab becomes the catch-up week: skills still
+// open from earlier weeks, plus a pointer to IXL's own recommendations.
 
 import TaskRow from './TaskRow.jsx'
 import WeekNav from './WeekNav.jsx'
@@ -11,6 +12,8 @@ export default function GradeView({
   weekLine,
   dateLine,
   stateNote,
+  breakMode,
+  catchUp,
   mode,
   onShowTonight,
   onShowWeek,
@@ -35,7 +38,7 @@ export default function GradeView({
       <div className="hero hero--grade">
         <div className="redrule" />
         <div className="kicker">{gradeLabel}</div>
-        <h1 className="h1 h1--grade">{s.tonightTitle}</h1>
+        <h1 className="h1 h1--grade">{breakMode ? s.breakTag : s.tonightTitle}</h1>
       </div>
 
       <div className="weekbanner weekbanner--grade">
@@ -53,18 +56,43 @@ export default function GradeView({
           onClick={onShowTonight}
           className={`tab ${isTonight ? 'tab--on' : 'tab--off'}`}
         >
-          {s.tabTonight}
+          {breakMode ? s.tabCatchUp : s.tabTonight}
         </button>
         <button
           type="button"
           onClick={onShowWeek}
           className={`tab ${!isTonight ? 'tab--on' : 'tab--off'}`}
         >
-          {s.tabWeek}
+          {breakMode ? s.tabNextWeek : s.tabWeek}
         </button>
       </div>
 
-      {isTonight ? (
+      {isTonight && breakMode ? (
+        <div className="catchup">
+          <p className="reqnote catchup__intro">{s.breakBody}</p>
+          {catchUp.total > 0 ? (
+            <>
+              <div className="muted-label catchup__label">{s.breakOpenLabel}</div>
+              <div className="tasklist">
+                {catchUp.tasks.map((k) => (
+                  <TaskRow key={k.key} task={k} showCode />
+                ))}
+              </div>
+              {catchUp.hasMore ? (
+                <button type="button" onClick={catchUp.onToggleMore} className="ghostpill">
+                  {catchUp.moreLabel}
+                </button>
+              ) : null}
+            </>
+          ) : (
+            <div className="nowork">{s.breakAllDone}</div>
+          )}
+          <div className="stuck catchup__dash">
+            <span className="stuck__title">{s.breakDashTitle}</span>
+            <p className="stuck__body">{s.breakDash}</p>
+          </div>
+        </div>
+      ) : isTonight ? (
         <>
           <div className="tonight">
             <div>

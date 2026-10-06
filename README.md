@@ -78,7 +78,27 @@ env vars:
 | `defaultLang`    | `VITE_DEFAULT_LANG`      | `en`               | Language before the visitor chooses.                |
 | `startDate`      | `VITE_START_DATE`        | `2026-08-31`       | Monday of Week 1; all week/day math derives from it.|
 
-`skipWeeks` (in `src/config.js`) is the list of no-school Mondays — see below.
+### Break weeks
+
+`breaks` (in `src/config.js`) lists the full no-school weeks from the
+Matchbook Learning School Calendar 2026-2027: Fall Break (Oct 12–16),
+Thanksgiving Break (Nov 23–27), Winter Break (Dec 21–Jan 1) and Spring Break
+(Mar 29–Apr 2). Each Monday whose Mon–Fri falls inside a break gets no week
+number, so the sheet's weeks resume after it (Week 7 starts Oct 19). During a
+break the site switches to a **catch-up week**:
+
+- Home and the grade view say "Fall Break · No new skills this week" and when
+  the next week starts.
+- The grade view's first tab lists every required skill still unchecked from
+  the weeks since the last break (checkable in place), plus a pointer to the
+  Recommendations on the child's IXL dashboard. The second tab previews the
+  coming week.
+- Break markers sit between the week chips; the current one returns to the
+  catch-up week. The IXL Code List shows a break note and marks breaks in its
+  week dropdown.
+
+Single days off (Labor Day, PD days, MLK Day, …) don't skip a week. When next
+year's calendar arrives, replace the `breaks` list (and `startDate`).
 
 ## Data model
 
@@ -161,9 +181,9 @@ segment to the IXL skill code.
 
 ## Open items (carried over from the design handoff)
 
-1. **`SKIP_WEEKS`** — no-school Mondays are unconfirmed. The mechanism is
-   implemented (`config.skipWeeks`, empty for now); fill it in once the school
-   calendar is set, or week numbering drifts after the first break.
+1. **Break weeks** — resolved for 2026-27: `config.breaks` holds the four
+   full no-school weeks from the school calendar (see "Break weeks"). Single
+   days off are not yet marked on the site.
 2. **Welcome video** — the Web Speech read-aloud is a launch stand-in. The
    intended state is the recorded clip in the video slot (set `welcomeVideoUrl`),
    with captions.

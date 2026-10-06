@@ -1,17 +1,18 @@
 // Week/day calendar math for IXL at Home.
 //
 // Week 1 Day 1 is `startDate` (a Monday). Week w Day d is
-// startDate + (w-1)*7 + (d-1) days, EXCEPT that any Monday listed in
-// `skipWeeks` (a no-school Monday) is not assigned a week number, so weeks
-// after it shift forward. With an empty `skipWeeks` this reduces exactly to
-// the prototype's arithmetic.
+// startDate + (w-1)*7 + (d-1) days, EXCEPT that a Monday whose whole Mon–Fri
+// falls inside one of `breaks` (a no-school week) is not assigned a week
+// number, so weeks after it shift forward. With no breaks this reduces exactly
+// to the prototype's arithmetic.
 //
-// Current position rules (matching the prototype):
-//   before startDate      -> Week 1 Day 1        (state "before")
-//   Saturday              -> next week Day 1      (state "weekend")
-//   Sunday                -> this week Day 1      (state "weekend")
-//   Mon–Fri               -> that week, day=getDay()  (state "school")
-//   past the last week     -> last week Day 5      (state "after")
+// Current position rules:
+//   before startDate          -> Week 1 Day 1               (state "before")
+//   Mon–Fri of a break week   -> next week Day 1, + break    (state "break")
+//   weekend before a break    -> next week Day 1, + break    (state "break")
+//   Saturday / Sunday         -> the coming week, Day 1      (state "weekend")
+//   Mon–Fri                   -> that week, day=getDay()     (state "school")
+//   past the last week        -> last week Day 5             (state "after")
 
 import { DAYS, MONTHS } from '../data/strings.js'
 
@@ -37,9 +38,18 @@ function isoLocal(date) {
   return `${y}-${m}-${d}`
 }
 
-export function createCalendar(startDate, skipWeeks = []) {
-  const skipSet = new Set(skipWeeks)
+export function createCalendar(startDate, breaks = []) {
   const dayOne = () => parseISO(startDate || '2026-08-31')
+  const ranges = (breaks || []).map((b) => ({ ...b, from: parseISO(b.start), to: parseISO(b.end) }))
+
+  // No-school Mondays: every Monday whose Mon–Fri sits inside one break.
+  const skipMap = new Map()
+  ranges.forEach((b) => {
+    let m = new Date(b.from)
+    m.setDate(m.getDate() + ((8 - m.getDay()) % 7)) // first Monday on/after start
+    for (; addDays(m, 4) <= b.to; m = addDays(m, 7)) skipMap.set(isoLocal(m), b)
+  })
+  const skipSet = new Set(skipMap.keys())
 
   // Real Monday date for authored week number `w` (1-based), skipping
   // no-school Mondays.
@@ -72,24 +82,50 @@ export function createCalendar(startDate, skipWeeks = []) {
     return addDays(mondayForWeek(w), d - 1)
   }
 
+  // The break covering the week of `monday` (a Date), or null.
+  function breakOn(monday) {
+    const b = skipMap.get(isoLocal(monday))
+    if (!b) return null
+    // A break can span several Mondays (Winter Break); report its full range.
+    return { en: b.en, es: b.es, from: b.from, to: b.to }
+  }
+
+  // Breaks that fall between week w-1 and week w (for the week chips).
+  function breaksBefore(w) {
+    if (w <= 1) return []
+    const out = []
+    for (let m = addDays(mondayForWeek(w - 1), 7); m < mondayForWeek(w); m = addDays(m, 7)) {
+      const b = breakOn(m)
+      if (b && !out.some((x) => x.en === b.en)) out.push(b)
+    }
+    return out
+  }
+
   function currentPos(lastWeek, now = new Date()) {
     const one = dayOne()
     const today = atMidnight(now)
     const last = lastWeek || 1
     if (today < one) return { week: 1, day: 1, state: 'before', date: one }
 
-    const monday = new Date(today)
-    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7))
-    let wk = weekIndexUpTo(monday)
-    if (wk < 1) wk = 1
-
+    // The school week that matters today: this week on Mon–Fri, the coming
+    // week on Saturday and Sunday.
     const dow = today.getDay()
-    if (dow === 0 || dow === 6) {
-      const nx = dow === 6 ? wk + 1 : wk
-      if (nx > last) return { week: last, day: 5, state: 'after', date: today }
-      return { week: nx, day: 1, state: 'weekend', date: today }
+    const monday = new Date(today)
+    monday.setDate(monday.getDate() - ((dow + 6) % 7))
+    const target = dow === 0 || dow === 6 ? addDays(monday, 7) : monday
+
+    const brk = breakOn(target)
+    if (brk) {
+      // No new skills this week; point at the first week back.
+      const next = weekIndexUpTo(target) + 1
+      if (next > last) return { week: last, day: 5, state: 'after', date: today }
+      return { week: next, day: 1, state: 'break', date: today, brk }
     }
+
+    let wk = weekIndexUpTo(target)
+    if (wk < 1) wk = 1
     if (wk > last) return { week: last, day: 5, state: 'after', date: today }
+    if (dow === 0 || dow === 6) return { week: wk, day: 1, state: 'weekend', date: today }
     return { week: wk, day: dow, state: 'school', date: today }
   }
 
@@ -99,7 +135,7 @@ export function createCalendar(startDate, skipWeeks = []) {
       : `${DAYS.en[date.getDay()]}, ${MONTHS.en[date.getMonth()]} ${date.getDate()}`
   }
 
-  return { dayOne, mondayForWeek, dateOf, currentPos, fmtDate }
+  return { dayOne, mondayForWeek, dateOf, currentPos, fmtDate, breakOn, breaksBefore }
 }
 
 // Largest authored week number across math + ela for a grade.

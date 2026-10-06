@@ -138,7 +138,7 @@ export default function CodesView({ s, vm, big, onHome, onToggleBig, onToggleLan
               className="cl-select"
             >
               {vm.weekOptions.map((o) => (
-                <option key={o.week} value={o.week}>
+                <option key={o.key} value={o.disabled ? '' : o.week} disabled={o.disabled}>
                   {o.label}
                 </option>
               ))}
@@ -154,6 +154,8 @@ export default function CodesView({ s, vm, big, onHome, onToggleBig, onToggleLan
             </button>
           </div>
         </div>
+
+        {vm.breakNote ? <div className="cl-break">{vm.breakNote}</div> : null}
 
         <section className="cl-card">
           <div className="cl-card__head">
